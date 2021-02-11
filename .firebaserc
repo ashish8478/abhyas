@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "abhyaas-4cd3a": {
+      "hosting": {
+        "abhyaas": [
+          "abhyaas-4cd3a"
+        ]
+      }
+    }
+  }
+}
