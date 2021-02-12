@@ -32,7 +32,7 @@ export class PanchadashiUsaComponent implements OnInit, OnDestroy {
 
     if (this.screenWidth > 650) {
       this.videoHtml = this.videoHtml.replace('%w', '640');
-      this.videoHtml = this.videoHtml.replace('%h', '480');
+      this.videoHtml = this.videoHtml.replace('%h', '360');
     } else {
       const width = this.screenWidth * 0.9;
       const height = width * 3 / 4;
