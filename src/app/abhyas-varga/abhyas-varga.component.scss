@@ -1,0 +1,35 @@
+.pravachan-list {
+    margin: 100px;
+  }
+  
+  .pravachan-list-item {
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .grid-cell {
+    width: 300px;
+    margin: 5px;
+  }
+  
+  @media only screen and (max-width: 800px) {
+    .pravachan-list {
+      margin: 10px;
+    }
+  
+    .pravachan-list-item {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  
+    .grid-cell {
+      width: 95%;
+      margin: 2px;
+    }
+  }
+  

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AbhyasVarga } from '../services/firedb.model';
-import { FiredbService } from '../services/firedb.service';
+import { AbhyasVarga } from '../../services/firedb.model';
+import { AbhyasVargaSubject, FiredbService } from '../../services/firedb.service';
 
 @Component({
   selector: 'app-panchadashi-usa',
@@ -47,7 +47,7 @@ export class PanchadashiUsaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.panchadashiUsaSubscription = this.db.getPanchadashiUsaAbhyaasListener()
+    this.panchadashiUsaSubscription = this.db.getAbhyaasListener(AbhyasVargaSubject.PanchadashiUsa)
       .subscribe((abhyasVarga: { abhyas: AbhyasVarga[]}) => {
         if (abhyasVarga.abhyas && abhyasVarga.abhyas.length > 0) {
           this.panchadashiAbhyas = abhyasVarga.abhyas;
@@ -59,7 +59,7 @@ export class PanchadashiUsaComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.db.getPanchadashiUsaAbhyaas();
+    this.db.getAbhyaas(AbhyasVargaSubject.PanchadashiUsa);
   }
 
 }
