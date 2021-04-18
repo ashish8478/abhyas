@@ -1,0 +1,100 @@
+<div class="container " novalidate>
+
+    <mat-tab-group>
+        <mat-tab label="Form">
+            <h1 class="fill-remaining-space">Add New Abhyas</h1>
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+                <mat-form-field class="form-element">
+                    <mat-label>Select Abhyas Varga</mat-label>
+                    <mat-select formControlName="album">
+                        <mat-option value="पंचदशी भावदर्शन">पंचदशी भावदर्शन</mat-option>
+                        <mat-option value="पंचदशी शिवगड">पंचदशी शिवगड</mat-option>
+                        <mat-option value="विवेकसिंधू">विवेकसिंधू</mat-option>
+                        <mat-option value="ज्ञानेश्वरी भावदर्शन">ज्ञानेश्वरी भावदर्शन</mat-option>
+                        <mat-option value="कलावतीआई चरित्र">कलावतीआई चरित्र</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!formGroup.controls['album'].valid && formGroup.controls['album'].touched">
+                        Abhyas Varga is required!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Title" formControlName="title">
+                    <mat-error *ngIf="!title.valid && title.touched">
+                        {{ titleAlert }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-element">
+                    <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="2"
+                        matAutosizeMaxRows="5" formControlName="description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Date" formControlName="date" [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Acharya" formControlName="acharya">
+                    <mat-error *ngIf="!acharya.valid && acharya.touched">
+                        Acharya is required!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="form-element">
+                    <input matInput placeholder="Audio/Video Link" formControlName="asset">
+                    <mat-error *ngIf="!asset.valid && asset.touched">
+                        Link is required!
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="form-element">
+                    <button mat-flat-button color="primary" (click)="addDetails()">
+                        Add Question-Answers
+                    </button>
+                </div>
+
+                <div formArrayName="details">
+                    <div *ngFor="let item of details.controls; let entryIndex=index" style="display: flex;"
+                        fxLayout="row" [formGroupName]="entryIndex">
+                        <mat-form-field class="form-details-element">
+                            <textarea matInput placeholder="Question" matTextareaAutosize matAutosizeMinRows="1"
+                                matAutosizeMaxRows="10" formControlName="question"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="form-details-element">
+                            <textarea matInput placeholder="Answer Text (Optional)" matTextareaAutosize
+                                matAutosizeMinRows="1" matAutosizeMaxRows="10" formControlName="answerText"></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="form-details-element">
+                            <input matInput placeholder="Answer Audio Link (Required)" formControlName="answerLink">
+                        </mat-form-field>
+                        <div>
+                            <button mat-flat-button color="warn" (click)="removeDetail(entryIndex)"
+                                style="margin-top: 15px; margin-left: 10px;">
+                                X
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-element">
+                    <br>
+                    <button mat-raised-button color="primary" type="submit" class="button"
+                        [disabled]="!formGroup.valid">
+                        Submit Form
+                    </button>
+                </div>
+
+            </form>
+        </mat-tab>
+        <mat-tab label="Output">
+            <div class="container">
+                {{ post | json }}
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+

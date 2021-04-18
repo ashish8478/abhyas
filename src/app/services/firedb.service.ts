@@ -8,40 +8,50 @@ import { AbhyasVarga } from './firedb.model';
 })
 export class FiredbService {
 
-  private panchadashiUsaObservable: Observable<any[]>;
+  private panchadashi2Observable: Observable<any[]>;
   private panchadashiAbhyasReceived = new Subject<{ abhyas: AbhyasVarga[]}>();
   private viveksindhuAbhyasReceived = new Subject<{ abhyas: AbhyasVarga[]}>();
   private viveksindhuObservable: Observable<unknown[]>;
   panchadashiUsa: AbhyasVarga[] = [];
   viveksindhu: AbhyasVarga[] = [];
 
+  abhyasVarga = { 
+    panchadashi2: 'पंचदशी भावदर्शन', 
+    panchadashiShivgad: 'पंचदशी शिवगड',
+    viveksindhu: 'विवेकसिंधू',
+    dnyaneshwari: 'ज्ञानेश्वरी भावदर्शन',
+    kalawatiaai: 'कलावतीआई चरित्र'
+  };
+
   constructor(private db: AngularFireDatabase) { 
-    this.panchadashiUsaObservable = db.list('panchadashi-usa').valueChanges();
+    this.panchadashi2Observable = db.list('panchadashi2').valueChanges();
     this.viveksindhuObservable = db.list('viveksindhu').valueChanges();
   }
 
   getAbhyaas(vargaSubject: AbhyasVargaSubject) {
-    if (vargaSubject === AbhyasVargaSubject.PanchadashiUsa) {
-      this.panchadashiUsaObservable.subscribe(items => {
+    if (vargaSubject === AbhyasVargaSubject.PanchadashiBhavdarshan) {
+      this.panchadashi2Observable.subscribe(items => {
         this.panchadashiUsa = [];
         items.forEach(item => {
+
+          const details = item['details'] ? item['details'].map(entry => {
+            return {
+              answerLink: entry['answerLink'],
+              answerText: entry['answerText'],
+              questionText: entry['question']
+            };
+          }) : [];
+
           this.panchadashiUsa.push({
             acharya: item['acharya'],
             asset: item['asset'],
             date: item['date'],
             description: item['description'],
             title: item['title'],
-            details: item['details'].map(entry => {
-              return {
-                answerLink: entry['answer-link'],
-                answerText: entry['answer-text'],
-                questionText: entry['question']
-              };
-            })
+            details: details
           });
         });
-  
-        console.log(this.panchadashiUsa);
+
         this.panchadashiAbhyasReceived.next({ abhyas: [...this.panchadashiUsa] });
       }, error => {
         console.log(error);
@@ -58,15 +68,14 @@ export class FiredbService {
             title: item['title'],
             details: item['details'].map(entry => {
               return {
-                answerLink: entry['answer-link'],
-                answerText: entry['answer-text'],
+                answerLink: entry['answerLink'],
+                answerText: entry['answerText'],
                 questionText: entry['question']
               };
             })
           });
         });
   
-        console.log(this.viveksindhu);
         this.viveksindhuAbhyasReceived.next({ abhyas: [...this.viveksindhu] });
       }, error => {
         console.log(error);
@@ -74,8 +83,29 @@ export class FiredbService {
     }
   }
 
+  addAbhyas(abhyasVarga: AbhyasVargaSubject, abhyasJson: any) {
+    try {
+      const abhyasObject = abhyasJson;
+      switch (abhyasVarga) {
+        case AbhyasVargaSubject.Viveksindhu:
+          this.db.list('viveksindhu').push(abhyasObject);
+          break;
+      
+        case AbhyasVargaSubject.PanchadashiBhavdarshan:
+          this.db.list('panchadashi2').push(abhyasObject);
+          break;
+
+        case AbhyasVargaSubject.PanchadashiShivgad:
+          this.db.list('panchadashiShivgad').push(abhyasObject);
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getAbhyaasListener(vargaSubject: AbhyasVargaSubject) {
-    if (vargaSubject === AbhyasVargaSubject.PanchadashiUsa) {
+    if (vargaSubject === AbhyasVargaSubject.PanchadashiBhavdarshan) {
       return this.panchadashiAbhyasReceived.asObservable();
     } else if (vargaSubject === AbhyasVargaSubject.Viveksindhu) {
       return this.viveksindhuAbhyasReceived.asObservable();
@@ -85,6 +115,8 @@ export class FiredbService {
 
 export enum AbhyasVargaSubject {
   Viveksindhu,
-  PanchadashiUsa,
+  PanchadashiBhavdarshan,
   PanchadashiShivgad,
+  DnyaneshwariBhavdarshan,
+  KalawatiAai
 }

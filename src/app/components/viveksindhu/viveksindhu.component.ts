@@ -51,7 +51,6 @@ export class ViveksindhuComponent implements OnInit, OnDestroy {
           this.abhyas.forEach(element => {
             const url = this.videoHtml.replace('%s', element.asset);
             element.asset = url;
-            console.log(url);
           });
         }
       });

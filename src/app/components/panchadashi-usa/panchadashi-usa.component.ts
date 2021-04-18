@@ -47,19 +47,18 @@ export class PanchadashiUsaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.panchadashiUsaSubscription = this.db.getAbhyaasListener(AbhyasVargaSubject.PanchadashiUsa)
+    this.panchadashiUsaSubscription = this.db.getAbhyaasListener(AbhyasVargaSubject.PanchadashiBhavdarshan)
       .subscribe((abhyasVarga: { abhyas: AbhyasVarga[]}) => {
         if (abhyasVarga.abhyas && abhyasVarga.abhyas.length > 0) {
           this.panchadashiAbhyas = abhyasVarga.abhyas;
           this.panchadashiAbhyas.forEach(element => {
             const url = this.videoHtml.replace('%s', element.asset);
             element.asset = url;
-            console.log(url);
           });
         }
       });
 
-    this.db.getAbhyaas(AbhyasVargaSubject.PanchadashiUsa);
+    this.db.getAbhyaas(AbhyasVargaSubject.PanchadashiBhavdarshan);
   }
 
 }

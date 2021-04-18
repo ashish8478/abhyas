@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { PanchadashiUsaComponent } from './components/panchadashi-usa/panchadashi-usa.component';
 import { PanchadashiShivgadComponent } from './components/panchadashi-shivgad/panchadashi-shivgad.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatButtonModule, MatCardModule, MatIconModule, MatListModule, MatSidenavModule, MatTabsModule, MatToolbarModule } from '@angular/material';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 
@@ -15,6 +13,9 @@ import { environment } from 'src/environments/environment';
 import { SafeHtmlPipe } from './shared/safehtml.pipe';
 import { AbhyasVargaComponent } from './abhyas-varga/abhyas-varga.component';
 import { ViveksindhuComponent } from './components/viveksindhu/viveksindhu.component';
+import { AddAbhyasComponent } from './components/add-abhyas/add-abhyas.component';
+import { MaterialImportsModule } from './material-imports.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,20 +25,15 @@ import { ViveksindhuComponent } from './components/viveksindhu/viveksindhu.compo
     SafeHtmlPipe,
     AbhyasVargaComponent,
     ViveksindhuComponent,
+    AddAbhyasComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatCardModule,
-    MatTabsModule,
-    MatExpansionModule,
+    ReactiveFormsModule, 
+    MaterialImportsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule    
   ],
