@@ -51,7 +51,7 @@
                 </mat-form-field>
 
                 <div class="form-element">
-                    <button mat-flat-button color="primary" (click)="addDetails()">
+                    <button mat-flat-button color="primary" (click)="addDetails()" type="button">
                         Add Question-Answers
                     </button>
                 </div>
@@ -68,7 +68,7 @@
                                 matAutosizeMinRows="1" matAutosizeMaxRows="10" formControlName="answerText"></textarea>
                         </mat-form-field>
                         <mat-form-field class="form-details-element">
-                            <input matInput placeholder="Answer Audio Link (Required)" formControlName="answerLink">
+                            <input matInput placeholder="Answer Audio Link ID (Required)" formControlName="answerLink">
                         </mat-form-field>
                         <div>
                             <button mat-flat-button color="warn" (click)="removeDetail(entryIndex)"

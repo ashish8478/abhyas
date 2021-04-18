@@ -99,8 +99,12 @@ export class FiredbService {
           this.db.list('panchadashiShivgad').push(abhyasObject);
           break;
       }
+
+      return null;
+
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
 

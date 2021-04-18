@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
 import { AbhyasVargaSubject, FiredbService } from 'src/app/services/firedb.service';
 
@@ -14,7 +15,7 @@ export class AddAbhyasComponent implements OnInit {
   post: any;
   titleAlert: string = 'This field is required';
 
-  constructor(private formBuilder: FormBuilder, private dbService: FiredbService) { }
+  constructor(private formBuilder: FormBuilder, private dbService: FiredbService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.createForm();
@@ -124,7 +125,7 @@ export class AddAbhyasComponent implements OnInit {
       details = this.details.value.map(v => {
         debugger
         return {
-          answerLink: v.answerLink,
+          answerLink: 'http://docs.google.com/uc?export=open&id=' + v.answerLink,
           answerText: v.answerText,
           question: v.question
         };
@@ -134,7 +135,7 @@ export class AddAbhyasComponent implements OnInit {
     const date: Date = this.date.value ? this.date.value : new Date();
     const description: string = this.description.value ? this.description.value : '';
 
-    this.dbService.addAbhyas(album, {
+    const error = this.dbService.addAbhyas(album, {
       album: this.album.value,
       title: this.title.value,
       date: date.toISOString().split("T")[0],
@@ -143,5 +144,22 @@ export class AddAbhyasComponent implements OnInit {
       description: description,
       details: details
     });
+
+    if (error) {
+      this.openSnackBar(`Failed: ${error}`);
+    } else {
+      this.openSnackBar(`Success: Abhyaas saved to DB.`);
+      this.acharya.setValue('');
+      this.album.setValue('');
+      this.title.setValue('');
+      this.asset.setValue('');
+      this.date.setValue('');
+      this.description.setValue('');
+      this.details.clear();
+    }
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, '', { duration: 5000 });
   }
 }
